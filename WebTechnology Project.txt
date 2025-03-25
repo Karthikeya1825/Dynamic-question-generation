@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        .icon {
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .question {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: yellow;
+            font-weight: bold;
+        }
+        .option {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 10px;
+            background: rgba(0, 123, 255, 0.8);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: rgba(0, 86, 179, 0.9);
+        }
+        #score {
+            font-size: 18px;
+            margin-top: 20px;
+            color: cyan;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <span class="icon" onclick="generateQuiz()">🔄 Generate Quiz</span>
+    </div>
+
+    <div class="container">
+        <h2>Simple Quiz Game</h2>
+        <div id="quiz">
+            <p class="question" id="question">Click 'Generate Quiz' to start</p>
+            <button class="option" onclick="checkAnswer(0)"></button>
+            <button class="option" onclick="checkAnswer(1)"></button>
+            <button class="option" onclick="checkAnswer(2)"></button>
+            <button class="option" onclick="checkAnswer(3)"></button>
+        </div>
+        <p id="score">Score: 0</p>
+        <div id="history"></div>
+    </div>
+
+    <script>
+        const questions = [
+            { question: "What is the capital of France?", options: ["Paris", "Berlin", "Madrid", "Rome"], answer: 0 },
+            { question: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: 1 },
+            { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1 },
+            { question: "Who wrote 'Hamlet'?", options: ["Shakespeare", "Dickens", "Rowling", "Twain"], answer: 0 },
+            { question: "What is the largest ocean on Earth?", options: ["Atlantic", "Indian", "Pacific", "Arctic"], answer: 2 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function generateQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            document.getElementById("score").textContent = "Score: 0";
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let q = questions[currentQuestionIndex];
+            document.getElementById("question").textContent = q.question;
+            let buttons = document.getElementsByClassName("option");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].textContent = q.options[i];
+            }
+        }
+
+        function checkAnswer(choice) {
+            if (choice === questions[currentQuestionIndex].answer) {
+                score++;
+                document.getElementById("score").textContent = "Score: " + score;
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz").innerHTML = `<h3>Quiz Over! Final Score: ${score}</h3>`;
+            }
+        }
+    </script>
+</body>
+</html>
